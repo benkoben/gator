@@ -5,7 +5,7 @@ import "fmt"
 func handlerLogin(s *state, cmd command) error {
     
     if len(cmd.args) == 0 {
-        return fmt.Errorf("login expects at least one argument")
+        return fmt.Errorf("username is required")
     }
 
     user := cmd.args[0]

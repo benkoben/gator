@@ -30,7 +30,7 @@ func (c *commands) run(s *state, cmd command) error {
     }
 
     if err := handler(s, cmd); err != nil {
-        return fmt.Errorf("failed to run command: %v", err)
+        return fmt.Errorf("%s: %v", cmd.name, err)
     }
 
     return nil

@@ -17,8 +17,11 @@ func main(){
     currentState.config = cfg
    
     // Register all necessary commands
-    commands := commands{}
-    commands.register("login", handlerLogin)
+    commands := commands{
+        registry: map[string]func(*state, command) error{
+            "login": handlerLogin,
+        },
+    }
     args := os.Args
 
     // Parse user input
@@ -27,10 +30,12 @@ func main(){
     }
    
     command := command{
-        name: args[0],
-        args: args[1:],
+        name: args[1],
+        args: args[2:],
     }
 
     // Execute the requested command
-    commands.run(currentState, command)
+    if err := commands.run(currentState, command); err != nil {
+        log.Fatalf("failed to run command: %s", err)
+    }
 }

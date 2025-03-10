@@ -1,25 +1,42 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"os"
 
 	"github.com/benkoben/gator/internal/config"
+	"github.com/benkoben/gator/internal/database"
+
+	_ "github.com/lib/pq"
 )
 
 func main(){
     // Set current state
-    currentState := &state{}
     cfg, err := config.Read()
     if err != nil {
         log.Fatalf("could not read config file: %s", err)
     }
-    currentState.config = cfg
-   
+
+    // Create database connection
+    db, err  := sql.Open("postgres", cfg.DbUrl)
+    if err != nil {
+        log.Fatalf("could not connect to database: %s", err)
+    }
+    dbQueries := database.New(db)
+
+    currentState := &state{
+        db: dbQueries,
+        config: cfg,
+    }
+
     // Register all necessary commands
     commands := commands{
         registry: map[string]func(*state, command) error{
             "login": handlerLogin,
+            "register": handlerRegister,
+            "reset": handlerResetUsers,
+            "users": handlerListUsers,
         },
     }
     args := os.Args

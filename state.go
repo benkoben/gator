@@ -6,6 +6,6 @@ import (
 )
 
 type state struct {
-    db *database.Queries
-    config *config.Config
+	db     *database.Queries
+	config *config.Config
 }

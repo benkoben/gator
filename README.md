@@ -39,7 +39,7 @@ OPTIONS:
 * `unfollow <URL>` - Unfollow a feed
 * `browse <LIMIT>` - List the feeds content
 
-# dependencies
+# Dependencies
 
 * Go version 1.23
 * PostgresQL 15.12 (developed with)
@@ -57,7 +57,9 @@ go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 go get github.com/lib/pq
 ```
 
-# Goose
+# Developer references
+
+## Goose
 
 ```bash
 goose postgres "postgres://kooijman:@localhost:5432/gator" up

@@ -13,6 +13,12 @@ type commands struct {
 	registry map[string]func(*state, command) error
 }
 
+func newCommandRegistry() *commands {
+    return &commands{
+        map[string]func(*state, command) error{},
+    }
+}
+
 /*
 registers a new handler function for a given command
 */

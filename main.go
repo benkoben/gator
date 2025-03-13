@@ -31,17 +31,19 @@ func main() {
 	}
 
 	// Register all necessary commands
-	commands := commands{
-		registry: map[string]func(*state, command) error{
-			"login":    handlerLogin,
-			"register": handlerRegister,
-			"reset":    handlerResetUsers,
-			"users":    handlerListUsers,
-			"agg":      handlerFetchFeed,
-            "addfeed":  handlerAddFeed,
-            "feeds":    handlerFeeds,
-		},
-	}
+	commands := newCommandRegistry()
+    commands.register("login", handlerLogin)
+    commands.register("register", handlerRegister)
+    commands.register("reset", handlerResetUsers)
+    commands.register("users", handlerListUsers)
+    commands.register("agg", handlerFetchFeed)
+    commands.register("addfeed", middlewareLoggedIn(handlerAddFeed))
+    commands.register("feeds", handlerFeeds)
+    commands.register("follow", middlewareLoggedIn(handlerFollow))
+    commands.register("following", middlewareLoggedIn(handlerFollowing))
+    commands.register("unfollow", middlewareLoggedIn(handlerUnfollow))
+    commands.register("browse", middlewareLoggedIn(handlerBrowse))
+
 	args := os.Args
 
 	// Parse user input

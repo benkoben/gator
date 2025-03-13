@@ -1,11 +1,12 @@
--- +goose up
+-- +goose Up
 CREATE TABLE feeds(
-    id SERIAL,
+    id SERIAL NOT NULL PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     name TEXT NOT NULL,
-    url TEXT UNIQUE,
+    url TEXT UNIQUE NOT NULL,
     user_id UUID NOT NULL,
+    last_fetched_at TIMESTAMP,
     CONSTRAINT fk_user_id
         FOREIGN KEY (user_id)
             REFERENCES users(id)
